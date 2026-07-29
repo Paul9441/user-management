@@ -12,6 +12,15 @@ def Home(request):
 def About(request): 
     return render(request, "uifiles/about.html")
 
+def dashboard(request):
+    user_data = User.objects.all()
+
+    return render(request, "uifiles/dashboard.html",{"userData": user_data})
+
+def change_password(request): 
+    return render(request, "uifiles/change_password.html")
+
+
 def Login(request):
 
     if request.method == "POST":

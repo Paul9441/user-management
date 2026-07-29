@@ -1,0 +1,122 @@
+{% extends "uifiles/base.html" %}
+{% load static %}
+{% block content %}
+
+<div id="userTableContainer"
+     style="width: 100%; padding: 20px; box-sizing: border-box;">
+
+    <table id="userTable"
+           style="
+               width: 100%;
+               border-collapse: collapse;
+               border: 2px solid #333;
+               font-family: Arial, sans-serif;
+           ">
+
+        <!-- TABLE HEADER -->
+        <thead id="userTableHead">
+
+            <tr id="tableHeader"
+                style="background-color: #212529; color: white;">
+
+                <th id="snoHeader"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+                    S.No
+                </th>
+
+                <th id="usernameHeader"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+                    Username
+                </th>
+
+                <th id="fullnameHeader"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+                    Full Name
+                </th>
+
+                <th id="emailHeader"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+                    Email
+                </th>
+
+                <th id="actionHeader"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <!-- TABLE BODY -->
+        <tbody id="userTableBody">
+
+            <!-- ROW 1 -->
+             {% for item in userData %}
+            <tr id="row_1">
+
+                <td id="sno_1"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+                    {{ item.id }}
+                </td>
+
+                <td id="username_1"
+                    style="border: 1px solid #333; padding: 12px;">
+                   {{ item.username }}
+                </td>
+
+                <td id="fullname_1"
+                    style="border: 1px solid #333; padding: 12px;">
+                  {{ item.first_name }}
+                </td>
+
+                <td id="email_1"
+                    style="border: 1px solid #333; padding: 12px;">
+                    {{ item.email }}
+                </td>
+
+                <td id="action_1"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+
+                    <button id="edit_1"
+                            type="button"
+                            style="
+                                background:#0d6efd;
+                                color:white;
+                                border:none;
+                                padding:7px 16px;
+                                border-radius:5px;
+                                cursor:pointer;
+                                margin-right:5px;
+                            ">
+                        Edit
+                    </button>
+
+                    <button id="delete_1"
+                            type="button"
+                            style="
+                                background:#dc3545;
+                                color:white;
+                                border:none;
+                                padding:7px 16px;
+                                border-radius:5px;
+                                cursor:pointer;
+                            ">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+            {% endfor %}
+
+
+
+        </tbody>
+
+    </table>
+
+</div>
+		
+{% endblock %}
