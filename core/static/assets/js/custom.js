@@ -1,13 +1,15 @@
 function getting_user_data() {
-    alert("it working ")
-
-    const username = document.getElementById("username").value;
-    const fullName = document.getElementById("full_name").value;
-    const email = document.getElementById("email").value;
+    const username = document.getElementById("username").value.trim();
+    const fullName = document.getElementById("full_name").value.trim();
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    alert(password)
 
-  
+    // Basic frontend validation
+    if (!username || !fullName || !email || !password) {
+        alert("All fields are required.");
+        return;
+    }
+
     const csrfToken = document.querySelector(
         "[name=csrfmiddlewaretoken]"
     ).value;
@@ -18,7 +20,7 @@ function getting_user_data() {
     formData.append("full_name", fullName);
     formData.append("email", email);
     formData.append("password", password);
-    debugger;
+
     fetch("/register/", {
         method: "POST",
         headers: {
@@ -27,30 +29,127 @@ function getting_user_data() {
         body: formData
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP Error: ${response.status}`);
-        }
-
+        // Parse JSON even for 400 responses
         return response.json();
     })
     .then(data => {
-
         console.log(data);
 
-        if (data.status === "success") {
-
-            alert("User registered successfully.");
+        if (data.success === true) {
+            alert(data.message);
 
             document.getElementById("registerForm").reset();
 
             window.location.href = "/login/";
-
         } else {
-            alert(data.message || "User registration failed.");
+            // Display Django error message
+            alert(data.message);
         }
     })
     .catch(error => {
         console.error("Registration Error:", error);
-        alert("Something went wrong.");
+        alert("Something went wrong. Please try again.");
+    });
+}
+
+// function getting_user_credentials() {
+
+//     alert("Login button clicked!");
+
+//     const username = document.getElementById("username").value.trim();
+//     const password = document.getElementById("password").value;
+
+//     if (!username || !password) {
+//         alert("Please enter username and password.");
+//         return;
+//     }
+
+    
+//     const csrfToken = document.querySelector(
+//         "[name=csrfmiddlewaretoken]"
+//     ).value;
+
+//     const formData = new FormData();
+
+//     formData.append("username", username);
+//     formData.append("password", password);
+   
+//     fetch("/login/", {
+//         method: "POST",
+//         headers: {
+//             "X-CSRFToken": csrfToken
+//         },
+//         body: formData
+//     })
+//     .then(response => {
+//         // Parse JSON even for 400 responses
+//         return response.json();
+//     })
+    
+// }
+
+function getting_user_credentials() {
+ debugger;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    // Validate fields
+    if (!username || !password) {
+        alert("Please enter username and password.");
+        return;
+    }
+
+    // Get CSRF token
+    const csrfElement = document.querySelector(
+        "[name=csrfmiddlewaretoken]"
+    );
+
+    if (!csrfElement) {
+        console.error("CSRF token not found.");
+        alert("CSRF token not found.");
+        return;
+    }
+
+    const csrfToken = csrfElement.value;
+
+    // Prepare form data
+    const formData = new FormData();
+
+    formData.append("username", username);
+    formData.append("password", password);
+
+    // Send data to Django
+    fetch("/login/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrfToken
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        console.log(data);
+
+        if (data.success === true) {
+
+            alert(data.message);
+
+            // Redirect after successful login
+            window.location.href = "/about/";
+
+        } else {
+
+            // Show error returned by Django
+            alert(data.message);
+
+        }
+    })
+    .catch(error => {
+
+        console.error("Login Error:", error);
+
+        alert("Something went wrong. Please try again.");
+
     });
 }
