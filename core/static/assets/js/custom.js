@@ -136,7 +136,7 @@ function getting_user_credentials() {
             alert(data.message);
 
             // Redirect after successful login
-            window.location.href = "/about/";
+            window.location.href = "/dashboard/";
 
         } else {
 
@@ -151,5 +151,83 @@ function getting_user_credentials() {
 
         alert("Something went wrong. Please try again.");
 
+    });
+}
+
+function changepassword() {
+    const userId = document.getElementById("user_id").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm_password").value;
+
+    console.log('1')
+
+    // Get CSRF token
+    const csrfElement = document.querySelector(
+        "[name=csrfmiddlewaretoken]"
+    );
+  console.log('2')
+    if (!csrfElement) {
+        console.error("CSRF token not found.");
+        alert("CSRF token not found.");
+        return;
+    }
+  console.log('3')
+    const csrfToken = csrfElement.value;
+
+    // Prepare form data
+    const formData = new FormData();
+
+   
+    formData.append("password", password);
+    formData.append("confirm_password", confirmPassword);
+  console.log('4')
+    // Send request to Django
+    fetch(`/change_password/${userId}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrfToken
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+  console.log('5')
+        if (data.success == true) {
+            alert(data.message);
+
+            // Redirect to login page
+            window.location.href = "/dashboard/";
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+          console.log('6')
+        alert("Something went wrong. Please try again.");
+    });
+}
+
+
+function delete_user(id) {
+    alert(id)
+    fetch(`/delete_user/${id}/`, {
+        method: "POST",
+        headers: {
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if (data.success === true) {
+            alert(data.message);
+            window.location.href = "/dashboard/";
+        } else {
+            alert(data.message);
+        }
+
+    })
+    .catch(error => {
+        console.error("Delete Error:", error);
     });
 }

@@ -12,14 +12,61 @@ def Home(request):
 def About(request): 
     return render(request, "uifiles/about.html")
 
+@csrf_exempt
+def Delete_user(request, id):
+    x =10
+    if request.method == "POST":
+        act_user = request.user
+        selected_user = User.objects.filter(id=id).first()
+
+        if selected_user:
+            selected_user.delete()
+
+            return JsonResponse({
+                "success": True,
+                "message": "User deleted successfully."
+            })
+
+        return JsonResponse({
+            "success": False,
+            "message": "User not found."
+        })
+
+    return JsonResponse({
+        "success": False,
+        "message": "Invalid request."
+    })
+
+
+
 def dashboard(request):
     user_data = User.objects.all()
 
     return render(request, "uifiles/dashboard.html",{"userData": user_data})
 
-def change_password(request): 
-    return render(request, "uifiles/change_password.html")
+def change_password(request, id):
+    selected_user = User.objects.filter(id=id).first()
 
+    if request.method == "POST":
+        password = request.POST.get("password")
+        # confirm_password = request.POST.get("confirm_password")
+
+        
+
+        selected_user.set_password(password)
+        # selected_user.password = password
+        selected_user.save()
+
+        return JsonResponse({
+            "success": True,
+            "message": "Password changed successfully."
+        })
+
+    return render(
+        request,
+        "uifiles/change_password.html",
+        {"suserData": selected_user}
+    )
 
 def Login(request):
 

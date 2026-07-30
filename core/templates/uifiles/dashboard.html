@@ -38,6 +38,10 @@
                     style="border: 1px solid #333; padding: 12px; text-align: center;">
                     Email
                 </th>
+                 <th id="emailHeader"
+                    style="border: 1px solid #333; padding: 12px; text-align: center;">
+                    Password
+                </th>
 
                 <th id="actionHeader"
                     style="border: 1px solid #333; padding: 12px; text-align: center;">
@@ -75,36 +79,30 @@
                     style="border: 1px solid #333; padding: 12px;">
                     {{ item.email }}
                 </td>
+                  <td id="email_1"
+                    style="border: 1px solid #333; padding: 12px;">
+                    {{ item.password }}
+                </td>
 
                 <td id="action_1"
                     style="border: 1px solid #333; padding: 12px; text-align: center;">
 
-                    <button id="edit_1"
-                            type="button"
-                            style="
-                                background:#0d6efd;
-                                color:white;
-                                border:none;
-                                padding:7px 16px;
-                                border-radius:5px;
-                                cursor:pointer;
-                                margin-right:5px;
-                            ">
-                        Edit
-                    </button>
+                    <div class="call_to_action">
+						<a class="btn_two" href="/change_password/{{ item.id }}/">chnage password <i class="fa-solid fa-arrow-right"></i></a>
+					</div> 
+                    <div class="call_to_action">
+    <button
+        type="button"
+        class="btn_two"
+        onclick="delete_user({{ item.id }})"
+    >
+        Delete
+        <i class="fa-solid fa-arrow-right"></i>
+    </button>
+</div>
 
-                    <button id="delete_1"
-                            type="button"
-                            style="
-                                background:#dc3545;
-                                color:white;
-                                border:none;
-                                padding:7px 16px;
-                                border-radius:5px;
-                                cursor:pointer;
-                            ">
-                        Delete
-                    </button>
+                    
+                    
 
                 </td>
 
